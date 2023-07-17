@@ -3,6 +3,8 @@ package com.enndfp.charpter1_linklist.level2.topic2_1第一个公共结点;
 import java.util.*;
 
 /**
+ * 寻找两个链表的第一个公共结点
+ *
  * @author Enndfp
  */
 public class FindFirstCommonNode {
