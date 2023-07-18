@@ -46,6 +46,15 @@ public class MergeList {
         return res;
     }
 
+    /**
+     * 合并两个链表
+     *
+     * @param list1
+     * @param a
+     * @param b
+     * @param list2
+     * @return
+     */
     public ListNode mergeInBetween(ListNode list1, int a, int b, ListNode list2) {
         // 1. 找到list2的尾结点
         ListNode list2End = list2;
