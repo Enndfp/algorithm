@@ -8,7 +8,7 @@ package com.enndfp.charpter1_linklist.level2.topic2_3合并有序链表;
 public class MergeList {
 
     /**
-     * 递归
+     * 虚拟头结点和双指针
      *
      * @param list1
      * @param list2
