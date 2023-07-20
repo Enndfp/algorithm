@@ -3,7 +3,7 @@ package com.enndfp.charpter1_linklist.level2.topic2_5删除元素;
 /**
  * @author Enndfp
  */
-public class DeletePoint {
+public class RemoveElements {
     /**
      * 删除特定值元素
      *
