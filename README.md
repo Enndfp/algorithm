@@ -430,3 +430,102 @@
     }
 ```
 
+### 10.LeetCode 83. 删除排序链表中的重复元素
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/remove-duplicates-from-sorted-list/)**
+
+![image-20230721090136913](https://img.enndfp.cn/image-20230721090136913.png)
+
+**解题思路：**
+
+1. 首先，检查输入的链表头节点是否为null，如果是空链表，则直接返回该头节点null。
+2. 如果链表不为空，就从头节点开始遍历链表。使用一个指针cur来代表当前遍历到的节点，开始时指向头节点head。
+3. 在遍历过程中，对于每个节点cur，检查其后继节点cur.next是否存在，即cur是否为链表中的最后一个节点。如果cur.next存在，继续执行下面的步骤，否则表示已经遍历到了链表末尾，可以结束遍历。
+4. 检查当前节点cur的值cur.val和它的后继节点cur.next的值是否相等。如果相等，说明该节点是重复元素，因为链表是有序的，所以连续重复的元素会相邻。为了删除重复元素，只需要将当前节点cur的next指针指向其后继节点cur.next的next节点，即跳过一个重复元素，相当于删除了重复元素。这里的操作是 `cur.next = cur.next.next;`
+5. 如果当前节点cur的值cur.val和后继节点cur.next的值不相等，表示当前节点不是重复元素，直接将指针cur移动到下一个节点，即 `cur = cur.next;`，继续遍历。
+6. 重复执行步骤3至步骤5，直到遍历到链表末尾为止。
+7. 最后，返回删除重复元素后的链表的头节点head，即可得到链表中没有重复元素的链表。
+
+```java
+/**
+     * 删除链表中的重复元素,保留一个
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode cur = head;
+        while (cur.next != null) {
+            if (cur.val == cur.next.val) {
+                cur.next = cur.next.next;
+            } else {
+                cur = cur.next;
+            }
+        }
+        return head;
+    }
+```
+
+### 11.LeetCode 82. 删除排序链表中的重复元素 II
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/remove-duplicates-from-sorted-list-ii/)**
+
+![image-20230721092028149](https://img.enndfp.cn/image-20230721092028149.png)
+
+**解题思路：**
+
+1. 首先，检查输入的链表头节点是否为null，如果是空链表，则直接返回该头节点null。
+
+2. 创建一个虚拟头节点(dummyHead)。将虚拟头节点的next指针指向原链表的头节点head，以便处理链表开头的重复元素情况。
+
+3. 使用指针cur来代表当前遍历到的节点，开始时指向虚拟头节点dummyHead。
+
+4. 在遍历过程中，对于每个节点cur，检查其后继节点cur.next和后继节点的后继节点cur.next.next是否存在，即cur是否至少为链表中的倒数第二个节点。如果cur.next和cur.next.next都存在，继续执行下面的步骤，否则表示已经遍历到了链表倒数第二个节点或更短的链表，可以结束遍历。
+
+5. 检查当前节点cur的值cur.next.val和它的后继节点cur.next.next.val是否相等。如果相等，说明链表中存在重复元素。为了删除所有重复元素，需要进入一个循环，将指针cur的next指向不等于x的下一个节点，直到cur的next指向的节点值不等于x。这里的操作是：
+
+   ```java
+   int x = cur.next.val;
+   while (cur.next != null && cur.next.val == x) {
+       cur.next = cur.next.next;
+   }
+   ```
+
+6. 如果当前节点cur的值cur.next.val和后继节点cur.next.next.val不相等，表示当前节点cur的后继节点cur.next是唯一的，不是重复元素，直接将指针cur移动到下一个节点，即 `cur = cur.next;`，继续遍历。
+
+7. 重复执行步骤4至步骤6，直到遍历到链表倒数第二个节点为止。
+
+8. 最后，返回虚拟头节点dummyHead的next指针所指向的链表头节点，即可得到删除所有重复元素的链表。
+
+```java
+/**
+     * 删除链表中的重复元素,全都不要
+     *
+     * @param head
+     * @return
+     */
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return head;
+        }
+        ListNode dummyHead = new ListNode(0);
+        dummyHead.next = head;
+        ListNode cur = dummyHead;
+
+        while (cur.next != null && cur.next.next != null) {
+            if (cur.next.val == cur.next.next.val) {
+                int x = cur.next.val;
+                while (cur.next != null && cur.next.val == x) {
+                    cur.next = cur.next.next;
+                }
+            } else {
+                cur = cur.next;
+            }
+        }
+        return dummyHead.next;
+    }
+```
+
