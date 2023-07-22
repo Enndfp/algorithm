@@ -529,3 +529,77 @@
     }
 ```
 
+# 算法通关村第一关---链表反转
+
+### 1.LeetCode 206. 反转链表
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/reverse-linked-list/)**
+
+![image-20230722091010803](https://img.enndfp.cn/image-20230722091010803.png)
+
+**1.解题思路：**
+
+1. 创建虚拟头结点：首先，创建一个名为`dummyHead`的虚拟头结点，它将充当反转后链表的新头结点。虚拟头结点的值设置为-1，但它不包含任何实际数据。
+2. 遍历原链表：然后，代码使用`cur`指针来遍历原始链表`head`。
+3. 反转操作：在每次遍历中，将`cur`指向的节点从原链表中取下，并将其插入到虚拟头结点之后，成为反转后链表的新头结点。
+4. 更新指针：进行插入操作时，先将`cur.next`指针暂存为`next`，然后将`cur.next`指向虚拟头结点的下一个节点，再将虚拟头结点的`next`指针指向`cur`，最后将`cur`指向暂存的`next`，继续遍历原链表。
+5. 完成反转：当遍历完原链表后，虚拟头结点的`next`指针指向的节点就是反转后链表的新头结点。
+6. 返回结果：最后，返回反转后链表的头结点，即`dummyHead.next`。
+
+![image-20230722094932065](https://img.enndfp.cn/image-20230722094932065.png)
+
+```java
+/**
+     * 方法1：带虚拟头结点
+     *
+     * @param head
+     * @return
+     */
+    public ListNode reverseList(ListNode head) {
+        ListNode dummyHead = new ListNode(-1);
+        ListNode cur = head;
+
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = dummyHead.next;
+            dummyHead.next = cur;
+            cur = next;
+        }
+
+        return dummyHead.next;
+    }
+```
+
+**2.解题思路：**
+
+1. 初始化指针：首先，创建两个指针`pre`和`cur`，分别用于记录前一个节点和当前节点。开始时，`pre`为`null`，`cur`指向原链表的头结点`head`。
+2. 遍历原链表：通过循环遍历原链表，从头结点一直遍历到末尾节点。在每次循环中，执行反转操作。
+3. 反转操作：在每次循环中，首先将当前节点`cur`的下一个节点暂存为`next`，然后将`cur.next`指向`pre`，将当前节点指向的下一个节点指向前一个节点，实现反转操作。
+4. 更新指针：完成反转操作后，需要将指针向前移动。将`pre`指向当前节点`cur`，将`cur`指向暂存的下一个节点`next`，继续遍历原链表。
+5. 完成反转：当遍历完原链表后，`pre`指针所指的节点就是反转后链表的头结点。
+6. 返回结果：最后，返回反转后链表的头结点，即`pre`。
+
+![image-20230722095006376](https://img.enndfp.cn/image-20230722095006376.png)
+
+```java
+/**
+     * 方法2：不带虚拟头结点
+     *
+     * @param head
+     * @return
+     */
+    public ListNode reverseList2(ListNode head) {
+        ListNode pre = null;
+        ListNode cur = head;
+
+        while (cur != null) {
+            ListNode next = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = next;
+        }
+
+        return pre;
+    }
+```
+
