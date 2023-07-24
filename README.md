@@ -603,3 +603,45 @@
     }
 ```
 
+### 2.LeetCode 92. 反转链表 II
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/reverse-linked-list-ii/)**
+
+![image-20230724084751031](https://img.enndfp.cn/image-20230724084751031.png)
+
+**解题思路：**
+
+![image-20230724095608626](https://img.enndfp.cn/image-20230724095608626.png)
+
+![image-20230724095641164](https://img.enndfp.cn/image-20230724095641164.png)
+
+```java
+/**
+     * 带虚拟头结点指定区间反转链表
+     *
+     * @param head
+     * @param left
+     * @param right
+     * @return
+     */
+    public ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummyHead = new ListNode(-1);
+        dummyHead.next = head;
+        ListNode pre = dummyHead;
+        
+        for (int i = 0; i < left - 1; i++) {
+            pre = pre.next;
+        }
+        
+        ListNode cur = pre.next;
+        for (int i = 0; i < right - left; i++) {
+            ListNode next = cur.next;
+            cur.next = next.next;
+            next.next = pre.next;
+            pre.next = next;
+        }
+        
+        return dummyHead.next;
+    }
+```
+
