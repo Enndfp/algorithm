@@ -645,3 +645,116 @@
     }
 ```
 
+# 算法通关村第三关---数组
+
+### 1.LeetCode 896. 单调数列
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/monotonic-array/)**
+
+![image-20230728214502967](https://img.enndfp.cn/image-20230728214502967.png)
+
+![image-20230728214520228](https://img.enndfp.cn/image-20230728214520228.png)
+
+```java
+/**
+     * 一次遍历
+     *
+     * @param nums
+     * @return
+     */
+    public boolean isMonotonic(int[] nums) {
+        boolean inc = true, dec = true;
+        int n = nums.length;
+        for (int i = 0; i < n - 1; i++) {
+            if (nums[i] > nums[i + 1]) {
+                inc = false;
+            }
+            if (nums[i] < nums[i + 1]) {
+                dec = false;
+            }
+        }
+        return inc || dec;
+    }
+```
+
+### 2.LeetCode 35. 搜索插入位置
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/search-insert-position/)**
+
+![image-20230728214719966](https://img.enndfp.cn/image-20230728214719966.png)
+
+![image-20230728214728642](https://img.enndfp.cn/image-20230728214728642.png)
+
+**解题思路：**
+
+![image-20230728215431494](https://img.enndfp.cn/image-20230728215431494.png)
+
+![image-20230728215444129](https://img.enndfp.cn/image-20230728215444129.png)
+
+![image-20230728215454337](https://img.enndfp.cn/image-20230728215454337.png)
+
+![image-20230728215517831](https://img.enndfp.cn/image-20230728215517831.png)
+
+![image-20230728215527485](https://img.enndfp.cn/image-20230728215527485.png)
+
+```java
+/**
+     * 二分查找
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int searchInsert(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+        return left;
+    }
+```
+
+### 3.LeetCode 88. 合并两个有序数组
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/merge-sorted-array/description/)**
+
+![image-20230728215907437](https://img.enndfp.cn/image-20230728215907437.png)
+
+![image-20230728215916827](https://img.enndfp.cn/image-20230728215916827.png)
+
+```java
+/**
+     * 逆向双指针
+     *
+     * @param nums1
+     * @param m
+     * @param nums2
+     * @param n
+     */
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int k = m + n;
+        for (int index = k - 1, nums1Index = m - 1, nums2Index = n - 1; index >= 0; index--) {
+            if (nums1Index < 0) {
+                //nums1已经取完，完全取nums2的值即可
+                nums1[index] = nums2[nums2Index--];
+            } else if (nums2Index < 0) {
+                //nums2已经取完，完全取nums1的值即可
+                break;
+            } else if (nums1[nums1Index] > nums2[nums2Index]) {
+                //nums1的元素值大于nums2，取nums1值
+                nums1[index] = nums1[nums1Index--];
+            } else {
+                //nums2的元素值大于nums1，取nums2值
+                nums1[index] = nums2[nums2Index--];
+            }
+        }
+    }
+```
+
