@@ -758,3 +758,84 @@
     }
 ```
 
+### 4.LeetCode 27. 移除元素
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/remove-element/)**
+
+![image-20230730213012163](https://img.enndfp.cn/image-20230730213012163.png)
+
+![image-20230730213025857](https://img.enndfp.cn/image-20230730213025857.png)
+
+**解题思路：**
+
+![image-20230730215548078](https://img.enndfp.cn/image-20230730215548078.png)
+
+1. 初始化两个指针：`slow` 和 `fast`。这两个指针都从数组的开头（索引 0）开始。
+2. 通过`fast`指针遍历数组，从第一个元素（索引 0）开始，向数组的末尾移动。
+3. 对于`fast`指针当前指向的元素，检查它是否等于指定的值`val`。
+4. 如果当前元素不等于`val`，说明我们要保留这个元素在修改后的数组中（因为我们要移除所有的`val`）。在这种情况下，将该元素复制到`slow`指针的位置，然后将`slow`指针移动到下一个位置。这一步骤有效地将非`val`元素覆盖到数组中原来`val`的位置。
+5. 如果当前元素等于`val`，则直接跳过，不做任何处理，然后将`fast`指针移到下一个元素的位置，`slow`指针保持不动。
+6. 重复步骤 4 和 5，直到`fast`指针到达数组的末尾。
+7. 此时`slow`指针的值表示修改后的新数组的长度，其中所有的`val`元素已经被移除。
+8. 返回`slow`的值，即为修改后的数组中不包含`val`的元素个数。
+
+```java
+/**
+     * 快慢双指针
+     *
+     * @param nums 待处理数组
+     * @param val  待删元素
+     * @return 不重复元素个数
+     */
+    public int removeElement(int[] nums, int val) {
+        int slow = 0;
+        for (int fast = 0; fast < nums.length; fast++) {
+            if (nums[fast] != val) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+        }
+        return slow;
+    }
+```
+
+### 5.LeetCode 26. 删除有序数组中的重复项
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/remove-duplicates-from-sorted-array/)**
+
+![image-20230730215736966](https://img.enndfp.cn/image-20230730215736966.png)
+
+![image-20230730215750409](https://img.enndfp.cn/image-20230730215750409.png)
+
+**解题思路：**
+
+1. 初始化两个指针：`slow` 和 `fast`。其中，`slow` 表示可以放入新元素的位置，初始值为 1（因为索引为 0 的元素不需要管，可以保留在新数组中）。
+2. 使用循环来模拟快指针的移动，`fast` 指针从索引 0 开始，向数组的末尾移动。
+3. 对于每个 `fast` 指针指向的元素，检查它是否与上一个位置（`slow - 1`索引处）的元素相同。
+4. 如果当前元素与上一个元素不相同，说明该元素是新的不重复元素，应该放入新数组中。将该元素复制到 `slow` 指针的位置，然后将 `slow` 指针移动到下一个位置。
+5. 如果当前元素与上一个元素相同，则跳过该元素，不将其放入新数组中，继续考察下一个元素。
+6. 重复步骤 4 和 5，直到 `fast` 指针遍历完整个数组。
+7. 此时 `slow` 指针的值表示新数组的长度，其中包含了不重复的元素。
+8. 返回 `slow` 的值作为新数组的长度。
+
+```java
+/**
+     * 快慢双指针
+     *
+     * @param nums 待处理数组
+     * @return
+     */
+    public static int removeDuplicates(int[] nums) {
+        //slow表示可以放入新元素的位置，索引为0的元素不用管
+        int slow = 1;
+        //循环起到了快指针的作用
+        for (int fast = 0; fast < nums.length; fast++) {
+            if (nums[fast] != nums[slow - 1]) {
+                nums[slow] = nums[fast];
+                slow++;
+            }
+        }
+        return slow;
+    }
+```
+
