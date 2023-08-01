@@ -839,3 +839,76 @@
     }
 ```
 
+### 6.LeetCode 905. 按奇偶排序数组
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/sort-array-by-parity/)**
+
+![image-20230801191941649](https://img.enndfp.cn/image-20230801191941649.png)
+
+![image-20230801192024487](https://img.enndfp.cn/image-20230801192024487.png)
+
+**解题思路：**
+
+![image-20230801193619993](https://img.enndfp.cn/image-20230801193619993.png)
+
+1. 创建两个指针 `left` 和 `right`，分别初始化为数组的开头和结尾。
+2. 目标是将所有偶数移到数组的左侧，将所有奇数移到数组的右侧。
+3. 进入一个 `while` 循环，循环条件是 `left` 小于 `right`。
+4. 在循环中：
+   - 检查索引 `left` 处的数是否为奇数（`nums[left] % 2 == 1`），以及索引 `right` 处的数是否为偶数（`nums[right] % 2 == 0`）。
+   - 如果上述条件为真，则交换索引 `left` 和 `right` 处的数，这样就把偶数移到了左侧，把奇数移到了右侧。
+   - 如果索引 `left` 处的数是偶数，则将 `left` 增加1；如果索引 `right` 处的数是奇数，则将 `right` 减少1。这样我们可以继续向数组中心移动，继续交换偶数和奇数。
+5. 当 `while` 循环结束时，数组将按照奇偶性进行了分区，偶数位于数组的左侧，奇数位于数组的右侧。
+6. 返回排序后的数组。
+
+```java
+/**
+     * 对撞型双指针
+     *
+     * @param nums
+     * @return
+     */
+    public int[] sortArrayByParity(int[] nums) {
+        int left = 0, right = nums.length - 1;
+        while (left < right) {
+            if (nums[left] % 2 > nums[right] % 2) {
+                int temp = nums[right];
+                nums[right] = nums[left];
+                nums[left] = temp;
+            }
+            if (nums[left] % 2 == 0) left++;
+            if (nums[right] % 2 == 1) right--;
+        }
+        return nums;
+    }
+```
+
+### 7.LeetCode 189. 轮转数组
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/rotate-array/)**
+
+![image-20230801194728585](https://img.enndfp.cn/image-20230801194728585.png)
+
+**解题思路：**
+
+![image-20230801200043716](https://img.enndfp.cn/image-20230801200043716.png)
+
+```java
+public void rotate(int[] nums, int k) {
+        k %= nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+
+    public void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[end];
+            nums[end] = nums[start];
+            nums[start] = temp;
+            start++;
+            end--;
+        }
+    }
+```
+
