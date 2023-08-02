@@ -53,7 +53,7 @@
     }
 ```
 
-## 2.LeetCode 234. 回文链表
+### 2.LeetCode 234. 回文链表
 
 **题目地址：[LeetCode](https://leetcode.cn/problems/palindrome-linked-list/)**
 
@@ -909,6 +909,74 @@ public void rotate(int[] nums, int k) {
             start++;
             end--;
         }
+    }
+```
+
+### 8.LeetCode 228. 汇总区间
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/summary-ranges/)**
+
+![image-20230802215508636](https://img.enndfp.cn/image-20230802215508636.png)
+
+![image-20230802215613085](https://img.enndfp.cn/image-20230802215613085.png)
+
+**解题思路：**
+
+慢指针指向每个区间的起始位置，快指针从慢指针位置开始向后遍历直到不满足连续递增（或快指针达到数组边界），则当前区间结束；然后将 slow指向更新为 fast + 1，作为下一个区间的开始位置，fast继续向后遍历找下一个区间的结束位置，如此循环，直到输入数组遍历完毕
+
+```java
+/**
+     * 快慢指针
+     *
+     * @param nums
+     * @return
+     */
+    public List<String> summaryRanges(int[] nums) {
+        ArrayList<String> res = new ArrayList<>();
+        // slow 初始指向第 1 个区间的起始位置
+        int slow = 0;
+        for (int fast = 0; fast < nums.length; fast++) {
+            // fast 向后遍历，直到不满足连续递增(即 nums[fast] + 1 != nums[fast + 1])
+            // 或者 fast 达到数组边界，则当前连续递增区间 [slow, fast] 遍历完毕，将其写入结果列表
+            if (fast + 1 == nums.length || nums[fast] + 1 != nums[fast + 1]) {
+                // 将当前区间 [slow, fast] 写入结果列表
+                StringBuilder sb = new StringBuilder();
+                sb.append(nums[slow]);
+                if (slow != fast) {
+                    sb.append("->").append(nums[fast]);
+                }
+                res.add(sb.toString());
+                // 将 slow 指向更新为 fast + 1，作为下一个区间的起始位置
+                slow = fast + 1;
+            }
+        }
+        return res;
+    }
+```
+
+### 9.剑指 Offer 05. 替换空格
+
+**题目地址：[剑指 Offer](https://leetcode.cn/problems/ti-huan-kong-ge-lcof/description/)**
+
+![image-20230802222536210](https://img.enndfp.cn/image-20230802222536210.png)
+
+```java
+/**
+     * 字符串拼接
+     *
+     * @param s
+     * @return
+     */
+    public String replaceSpace(String s) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                sb.append("%20");
+            } else {
+                sb.append(s.charAt(i));
+            }
+        }
+        return sb.toString();
     }
 ```
 
