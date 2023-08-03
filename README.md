@@ -980,3 +980,135 @@ public void rotate(int[] nums, int k) {
     }
 ```
 
+# 算法通关村第四关---栈
+
+### 1.LeetCode 20. 有效的括号
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/valid-parentheses/)**
+
+![image-20230803212158173](https://img.enndfp.cn/image-20230803212158173.png)
+
+![image-20230803212301982](https://img.enndfp.cn/image-20230803212301982.png)
+
+**解题思路：**
+
+1. 创建一个栈（这里用 `Stack<Character>` 类型的 `stack` 变量）用来存储遍历过程中遇到的开括号；
+2. 遍历输入字符串 `s` 中的每个字符 `c`；
+3. 如果 `c` 是开括号（'('、'{' 或 '['），则将其压入栈 `stack`；
+4. 如果 `c` 是闭括号（')'、'}' 或 ']'），则检查栈是否为空。如果栈为空，说明当前闭括号没有匹配的开括号，返回 `false`；
+5. 如果栈不为空，则从栈顶弹出一个字符，并判断它是否与当前闭括号 `c` 匹配。如果不匹配，返回 `false`；
+6. 如果遍历结束后，栈中还有剩余元素，说明有未匹配的开括号，返回 `false`；
+7. 否则，返回 `true`，表示所有括号都匹配。
+
+```java
+/**
+     * 利用栈的先进后出
+     *
+     * @param s
+     * @return
+     */
+    public boolean isValid(String s) {
+        // 注意泛型要求包装类型
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            }
+            if (stack.isEmpty()) return false;
+            if (c == ')' && stack.pop() != '(') return false;
+            if (c == '}' && stack.pop() != '{') return false;
+            if (c == ']' && stack.pop() != '[') return false;
+        }
+        // 返回的是判断栈是否为空
+        return stack.isEmpty();
+    }
+```
+
+### 2.LeetCode 155. 最小栈
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/min-stack/)**
+
+![image-20230803214204110](https://img.enndfp.cn/image-20230803214204110.png)
+
+![image-20230803214218238](https://img.enndfp.cn/image-20230803214218238.png)
+
+```java
+/**
+ * 最小栈
+ *
+ * @author Enndfp
+ */
+public class MinStack {
+    // 当前栈的最小元素
+    private long minElement;
+    // 存储元素与当前最小值的差值
+    private Stack<Long> stack;
+
+    /**
+     * 初始化堆栈对象
+     */
+    public MinStack() {
+        stack = new Stack<>();
+    }
+
+    /**
+     * 将元素val推入堆栈
+     *
+     * @param val
+     */
+    public void push(int val) {
+        if (stack.isEmpty()) {
+            // 第一个元素直接入栈，并将当前最小值设为val
+            stack.push(0L);
+            minElement = val;
+        } else {
+            // 将val与当前最小值的差值入栈
+            stack.push(val - minElement);
+            // 更新最小值
+            if (val < minElement) {
+                minElement = val;
+            }
+        }
+    }
+
+    /**
+     * 删除堆栈顶部的元素
+     */
+    public void pop() {
+        if (!stack.isEmpty()) {
+            long top = stack.pop();
+            // 如果top小于0，说明原来入栈的元素比当前最小值小，需要还原最小值
+            if (top < 0) {
+                minElement = minElement - top;
+            }
+        }
+    }
+
+    /**
+     * 获取堆栈顶部的元素
+     *
+     * @return
+     */
+    public int top() {
+        long top = stack.peek();
+        // 如果top小于0，说明原来入栈的元素比当前最小值小，栈顶元素实际上为当前最小值
+        if (top < 0) {
+            return (int) minElement;
+        } else {
+            // 否则，栈顶元素为当前最小值加上差值，即实际元素值
+            return (int) (minElement + top);
+        }
+    }
+
+    /**
+     * 获取堆栈中的最小元素
+     *
+     * @return
+     */
+    public int getMin() {
+        return (int) minElement;
+    }
+}
+```
+
