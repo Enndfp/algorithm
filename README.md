@@ -1112,3 +1112,127 @@ public class MinStack {
 }
 ```
 
+# 算法通关村第五关---队列和Hash
+
+### 1.LeetCode 232. 用栈实现队列
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/implement-queue-using-stacks/)**
+
+![image-20230805221438524](https://img.enndfp.cn/image-20230805221438524.png)
+
+![image-20230805221451212](https://img.enndfp.cn/image-20230805221451212.png)
+
+**解题思路：**
+
+1. **加入队尾** `push()` ： 将数字 `val `加入栈` A` 即可
+2. **获取队首元素** `peek()` ：
+
+​           a. **当栈 B 不为空**： `B`中仍有已完成倒序的元素，因此直接返回 `B` 的栈顶元素
+​           b. **否则，当 A 为空**： 即两个栈都为空，无元素，因此返回 -1 
+​           c. **否则**： 将栈 `A` 元素全部转移至栈` B` 中，实现元素倒序，并返回栈 `B `的栈顶元素
+
+	3. **弹出队首元素** `pop()` ：
+		   a. 执行 `peek() `，获取队首元素
+           b. 弹出 `B` 的栈顶元素
+	4. **队列判空** `empty()` ： 当栈` A` 和 `B` 都为空时，队列为空
+
+```java
+/**
+ * 用栈实现队列
+ *
+ * @author Enndfp
+ */
+public class MyQueue {
+    
+    private Stack<Integer> A;
+    private Stack<Integer> B;
+
+    public MyQueue() {
+        A = new Stack<>();
+        B = new Stack<>();
+    }
+
+    public void push(int x) {
+        A.push(x);
+    }
+
+    public int pop() {
+        int peek = peek();
+        B.pop();
+        return peek;
+    }
+
+    public int peek() {
+        if (!B.isEmpty()) return B.peek();
+        if (A.isEmpty()) return -1;
+        while (!A.isEmpty()) {
+            B.push(A.pop());
+        }
+        return B.peek();
+    }
+
+    public boolean empty() {
+        return A.isEmpty() && B.isEmpty();
+    }
+}
+```
+
+### 2.LeetCode 225. 用队列实现栈
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/implement-stack-using-queues/)**
+
+![image-20230805224556093](https://img.enndfp.cn/image-20230805224556093.png)
+
+![image-20230805224608573](https://img.enndfp.cn/image-20230805224608573.png)
+
+**解题思路：**
+
+1. 入栈操作时，首先将元素入队到 `queue2`
+
+2. 将 `queue1`的全部元素依次出队并入队到 `queue2`，此时`queue2`的前端元素即为新入栈的元素
+
+3. 再将`queue1`和`queue2`交换，此时 `queue1`的元素即为栈内的元素，`queue1` 的前端和后端分别对应栈顶和栈底
+4. 由于`queue1`用于存储栈内元素，判空时只需判断`queue1`是否为空即可
+
+![image-20230805232227236](https://img.enndfp.cn/image-20230805232227236.png)
+
+```java
+/**
+ * 用队列实现栈
+ *
+ * @author Enndfp
+ */
+public class MyStack {
+
+    Queue<Integer> queue1;
+    Queue<Integer> queue2;
+
+    public MyStack() {
+        queue1 = new LinkedList<>();
+        queue2 = new LinkedList<>();
+    }
+
+    public void push(int x) {
+        queue2.offer(x);
+        while (!queue1.isEmpty()) {
+            queue2.offer(queue1.poll());
+        }
+        Queue temp = queue1;
+        queue1 = queue2;
+        queue2 = temp;
+    }
+
+    public int pop() {
+        return queue1.poll();
+    }
+
+    public int top() {
+        return queue1.peek();
+    }
+
+    public boolean empty() {
+        return queue1.isEmpty();
+    }
+}
+```
+
