@@ -1133,7 +1133,7 @@ public class MinStack {
 
 	3. **弹出队首元素** `pop()` ：
 		   a. 执行 `peek() `，获取队首元素
-           b. 弹出 `B` 的栈顶元素
+	       b. 弹出 `B` 的栈顶元素
 	4. **队列判空** `empty()` ： 当栈` A` 和 `B` 都为空时，队列为空
 
 ```java
@@ -1234,5 +1234,96 @@ public class MyStack {
         return queue1.isEmpty();
     }
 }
+```
+
+### 3.LeetCode 1. 两数之和
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/two-sum/)**
+
+![image-20230806215143833](https://img.enndfp.cn/image-20230806215143833.png)
+
+![image-20230806215159399](https://img.enndfp.cn/image-20230806215159399.png)
+
+**解题思路：**
+
+- 遍历数组 nums，i 为当前下标，每个值都判断map中是否存在 `target-nums[i]` 的 key 值
+- 如果存在则找到了两个值，如果不存在则将当前的 `(nums[i],i)` 存入 map 中，继续遍历直到找到为止
+
+```java
+/**
+ * 两数之和
+ *
+ * @author Enndfp
+ */
+public class TwoSum {
+    /**
+     * HashMap
+     *
+     * @param nums
+     * @param target
+     * @return
+     */
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            if (map.containsKey(target - nums[i])) {
+                return new int[]{map.get(target - nums[i]), i};
+            }
+            map.put(nums[i], i);
+        }
+
+        return new int[0];
+    }
+}
+```
+
+### 4.LeetCode 15. 三数之和
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/3sum/)**
+
+![image-20230806221111107](https://img.enndfp.cn/image-20230806221111107.png)
+
+![image-20230806221130004](https://img.enndfp.cn/image-20230806221130004.png)
+
+**解题思路：**
+
+- 首先对数组进行排序，排序后固定一个数 `nums[i]`，再使用左右指针指向 `nums[i]`后面的两端，数字分别为`nums[L]`和`nums[R]`，计算三个数的和`sum`判断是否满足为 `0`，满足则添加进结果集
+- 如果 `nums[i]`大于 `0`，则三数之和必然无法等于`0`，结束循环
+- 如果`nums[i] == nums[i-1]`，则说明该数字重复，会导致结果重复，所以应该跳过
+- 当`sum == 0`时，`nums[L] == nums[L+1]`则会导致结果重复，应该跳过，`L++`
+- 当`sum == 0`时，`nums[R] == nums[R-1]`则会导致结果重复，应该跳过，`R--`
+
+```java
+/**
+     * 排序 + 双指针
+     *
+     * @param nums
+     * @return
+     */
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> ans = new ArrayList();
+        int len = nums.length;
+        if (nums == null || len < 3) return ans;
+        Arrays.sort(nums); // 排序
+        for (int i = 0; i < len; i++) {
+            if (nums[i] > 0) break; // 如果当前数字大于0，则三数之和一定大于0，所以结束循环
+            if (i > 0 && nums[i] == nums[i - 1]) continue; // 去重
+            int L = i + 1;
+            int R = len - 1;
+            while (L < R) {
+                int sum = nums[i] + nums[L] + nums[R];
+                if (sum == 0) {
+                    ans.add(Arrays.asList(nums[i], nums[L], nums[R]));
+                    while (L < R && nums[L] == nums[L + 1]) L++; // 去重
+                    while (L < R && nums[R] == nums[R - 1]) R--; // 去重
+                    L++;
+                    R--;
+                } else if (sum < 0) L++;
+                else if (sum > 0) R--;
+            }
+        }
+        return ans;
+    }
 ```
 
