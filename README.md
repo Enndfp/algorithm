@@ -1131,10 +1131,10 @@ public class MinStack {
 ​           b. **否则，当 A 为空**： 即两个栈都为空，无元素，因此返回 -1 
 ​           c. **否则**： 将栈 `A` 元素全部转移至栈` B` 中，实现元素倒序，并返回栈 `B `的栈顶元素
 
-	3. **弹出队首元素** `pop()` ：
-		   a. 执行 `peek() `，获取队首元素
-	       b. 弹出 `B` 的栈顶元素
-	4. **队列判空** `empty()` ： 当栈` A` 和 `B` 都为空时，队列为空
+3. **弹出队首元素** `pop()` ：
+	    a. 执行 `peek() `，获取队首元素
+       b. 弹出 `B` 的栈顶元素
+4. **队列判空** `empty()` ： 当栈` A` 和 `B` 都为空时，队列为空
 
 ```java
 /**
@@ -1246,8 +1246,8 @@ public class MyStack {
 
 **解题思路：**
 
-- 遍历数组 nums，i 为当前下标，每个值都判断map中是否存在 `target-nums[i]` 的 key 值
-- 如果存在则找到了两个值，如果不存在则将当前的 `(nums[i],i)` 存入 map 中，继续遍历直到找到为止
+1. 遍历数组 nums，i 为当前下标，每个值都判断map中是否存在 `target-nums[i]` 的 key 值
+2. 如果存在则找到了两个值，如果不存在则将当前的 `(nums[i],i)` 存入 map 中，继续遍历直到找到为止
 
 ```java
 /**
@@ -1288,11 +1288,11 @@ public class TwoSum {
 
 **解题思路：**
 
-- 首先对数组进行排序，排序后固定一个数 `nums[i]`，再使用左右指针指向 `nums[i]`后面的两端，数字分别为`nums[L]`和`nums[R]`，计算三个数的和`sum`判断是否满足为 `0`，满足则添加进结果集
-- 如果 `nums[i]`大于 `0`，则三数之和必然无法等于`0`，结束循环
-- 如果`nums[i] == nums[i-1]`，则说明该数字重复，会导致结果重复，所以应该跳过
-- 当`sum == 0`时，`nums[L] == nums[L+1]`则会导致结果重复，应该跳过，`L++`
-- 当`sum == 0`时，`nums[R] == nums[R-1]`则会导致结果重复，应该跳过，`R--`
+1. 首先对数组进行排序，排序后固定一个数 `nums[i]`，再使用左右指针指向 `nums[i]`后面的两端，数字分别为`nums[L]`和`nums[R]`，计算三个数的和`sum`判断是否满足为 `0`，满足则添加进结果集
+2. 如果 `nums[i]`大于 `0`，则三数之和必然无法等于`0`，结束循环
+3. 如果`nums[i] == nums[i-1]`，则说明该数字重复，会导致结果重复，所以应该跳过
+4. 当`sum == 0`时，`nums[L] == nums[L+1]`则会导致结果重复，应该跳过，`L++`
+5. 当`sum == 0`时，`nums[R] == nums[R-1]`则会导致结果重复，应该跳过，`R--`
 
 ```java
 /**
@@ -1325,5 +1325,61 @@ public class TwoSum {
         }
         return ans;
     }
+```
+
+# 算法通关村第六关---树
+
+### 1.LeetCode 102. 二叉树的层序遍历
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/binary-tree-level-order-traversal/)**
+
+![image-20230810221716502](https://img.enndfp.cn/image-20230810221716502.png)
+
+![image-20230810221729001](https://img.enndfp.cn/image-20230810221729001.png)
+
+**解题思路：**
+
+1. **特例处理：**当根节点为空，则返回空列表`[]`
+2. **初始化：**打印结果列表`res = []`，包含根节点的队列 `queue = [root]`
+3. **BFS 循环：**当队列 `queue` 为空时跳出
+
+​			a. 新建一个临时列表 `temp` ，用于存储当前层打印结果
+
+​			b. **当前层打印循环：** 循环次数为当前层节点数（即队列 `queue` 长度）
+
+​					a. **出队：** 队首元素出队，记为 `node`
+
+​					b. **打印：** 将 `node.val` 添加至 `temp` 尾部
+
+​					c. **添加子节点：** 若 `node` 的左（右）子节点不为空，则将左（右）子节点加入队列 `queue` 
+
+​			c. 将当前层结果 `temp` 添加入 `res` 
+
+4. **返回值：** 返回打印结果列表 `res` 即可
+
+```java
+/**
+ * 二叉树的层次遍历
+ *
+ * @author Enndfp
+ */
+public class LevelOrder {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root != null) queue.add(root);
+        while (!queue.isEmpty()) {
+            List<Integer> temp = new ArrayList<>();
+            for (int i = queue.size(); i > 0; i--) {
+                TreeNode node = queue.poll();
+                temp.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            res.add(temp);
+        }
+        return res;
+    }
+}
 ```
 
