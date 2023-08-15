@@ -1337,6 +1337,14 @@ public class TwoSum {
 
 ![image-20230810221729001](https://img.enndfp.cn/image-20230810221729001.png)
 
+```
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+```
+
 **解题思路：**
 
 1. **特例处理：**当根节点为空，则返回空列表`[]`
@@ -1373,6 +1381,62 @@ public class LevelOrder {
             for (int i = queue.size(); i > 0; i--) {
                 TreeNode node = queue.poll();
                 temp.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            res.add(temp);
+        }
+        return res;
+    }
+}
+```
+
+### 2.LeetCode 103. 二叉树的锯齿形层序遍历
+
+**题目地址：[LeetCode](https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/)**
+
+![image-20230815215037519](https://img.enndfp.cn/image-20230815215037519.png)
+
+![image-20230815215049858](https://img.enndfp.cn/image-20230815215049858.png)
+
+```
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+```
+
+**解题思路：**
+
+- 利用双端队列的两端皆可添加元素的特性，设打印列表（双端队列） `temp` ，并规定：
+  - 奇数层 则添加至 `temp` **尾部** 
+  - 偶数层 则添加至 `temp` **头部** 
+
+> **注意**
+>
+> 本题通过`res`里的剩余元素来判断是奇数层还是偶数层
+>
+> - `res.size() % 2 == 0`说明剩余元素为偶数个，即当前循环为奇数层
+> - `res.size() % 2 != 0`说明剩余元素为奇数个，即当前循环为偶数层
+
+```java
+/**
+ * 二叉树的锯齿形层次遍历
+ *
+ * @author Enndfp
+ */
+public class ZigzagLevelOrder {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        if (root != null) queue.add(root);
+        while (!queue.isEmpty()) {
+            LinkedList<Integer> temp = new LinkedList<>();
+            TreeNode node = queue.poll();
+            for (int i = queue.size(); i > 0; i--) {
+                if (res.size() % 2 == 0) temp.addLast(node.val);
+                else temp.addFirst(node.val);
                 if (node.left != null) queue.add(node.left);
                 if (node.right != null) queue.add(node.right);
             }
